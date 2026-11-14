@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Document(collection = "journal_entries")
-@Builder
 @Data
+@NoArgsConstructor
 public class JournalEntry {
     // POJO Class -> Like a schema
     @Id
