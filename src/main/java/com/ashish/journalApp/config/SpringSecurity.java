@@ -18,7 +18,6 @@ import com.ashish.journalApp.service.UserDetailsServiceImpl;
 @EnableWebSecurity
 public class SpringSecurity {
 
-    // Pillar 2: Database se user lane wali service (Video me aage banegi)
      @Autowired
      private UserDetailsServiceImpl userDetailsService;
 
@@ -28,10 +27,11 @@ public class SpringSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http.authorizeHttpRequests(request -> request
-                        .requestMatchers("/journal/**","/user/**").authenticated() // /journal wale secure rahenge
-                        .anyRequest().permitAll())                  // Baaki sab (jaise /user signup) public rahenge
-                .httpBasic(Customizer.withDefaults())               // Basic Auth enable kiya
-                .csrf(AbstractHttpConfigurer::disable);             // Postman se call ke liye CSRF band kiya
+                        .requestMatchers("/journal/**","/user/**").authenticated()
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .anyRequest().permitAll())
+                .httpBasic(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
@@ -42,13 +42,11 @@ public class SpringSecurity {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        // Setter hat gaya hai, ab seedha constructor me pass hota hai:
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
 
-    // Pillar 3: Password Encoder ki Bean
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
