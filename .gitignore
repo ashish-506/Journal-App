@@ -33,4 +33,5 @@ build/
 .vscode/
 ### Local Secrets & Config ###
 application.properties
-application.yml
+*.yml
+*.log

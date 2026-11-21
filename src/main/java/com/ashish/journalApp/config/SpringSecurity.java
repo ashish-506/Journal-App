@@ -21,9 +21,6 @@ public class SpringSecurity {
      @Autowired
      private UserDetailsServiceImpl userDetailsService;
 
-    // =========================================================================
-    // 1. REPLACEMENT FOR: configure(HttpSecurity http)
-    // =========================================================================
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http.authorizeHttpRequests(request -> request
@@ -35,10 +32,6 @@ public class SpringSecurity {
 
         return http.build();
     }
-
-    // =========================================================================
-    // 2. REPLACEMENT FOR: configure(AuthenticationManagerBuilder auth)
-    // =========================================================================
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
